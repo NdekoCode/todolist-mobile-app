@@ -4,7 +4,7 @@ A TodoList mobile application developed with React Native to learn and practice 
 
 ## Description
 
-TodoList is a simple mobile application that allows you to manage your daily tasks. With this application, you can easily add new tasks, mark completed tasks and delete unnecessary tasks. The main aim of this project is to familiarise yourself with mobile application development using React Native, a popular framework for creating cross-platform applications.
+TodoList is a simple mobile application that allows you to manage your daily tasks. With this application, you can easily add new tasks, mark completed tasks and delete unnecessary tasks. The main aim of this project is to familiarise myself with mobile application development using React Native, a popular framework for creating cross-platform applications.
 
 ## Features
 
