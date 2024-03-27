@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "todolist-mobile-app",
-    "slug": "todolist-mobile-app",
+    "name": "Do Work",
+    "slug": "do-work",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
