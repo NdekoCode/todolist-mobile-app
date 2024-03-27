@@ -12,6 +12,9 @@ TodoList is a simple mobile application that allows you to manage your daily tas
 - Mark tasks as completed
 - Delete tasks
 - Intuitive and responsive user interface
+- Plash Screen when the application loads
+- Task filtering with "All", "In progress", "Done".
+- Persist data with asyncStorage
 
 ## Technologies used
 
