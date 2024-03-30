@@ -7,7 +7,7 @@ const CardTodo = ({ todo, handleCompleted,handleDelete }) => {
     textDecorationLine: "line-through",
   };
   return (
-    <TouchableOpacity style={s.app} onPress={() => handleCompleted(todo.id)}>
+    <TouchableOpacity style={s.app} onLongPress={()=>handleDelete(todo.id)} onPress={() => handleCompleted(todo.id)}>
       <>
         <Text style={[s.text, isCompltedStyle]}>{todo.title}</Text>
         <View style={s.iconContainer}>

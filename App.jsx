@@ -12,15 +12,24 @@ export default function App() {
   const [filter, setFilter] = useState("ALL");
   const todosFiltered = filterTodos(todos, filter);
   const [activeIndex, setActiveIndex] = useState(0);
-  const handleDelete = (id)=>{
-    Alert.alert("Delete this todo","Pay attention you're in the process to delete this todo",[{
-      text:"Cancel",
-    onPress:()=>console.log("Cancel Pressed")},{
-        text:"Confirm",
-        onPress:()=>deleteTodo(id)
-      }
-    ])
-  }
+  const handleDelete = (id) => {
+    Alert.alert(
+      "Delete this todo",
+      "Pay attention you're in the process to delete this todo",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+          onPress: () => console.log("Cancel Pressed"),
+        },
+        {
+          text: "Confirm",
+          style: "destructive",
+          onPress: () => deleteTodo(id),
+        },
+      ]
+    );
+  };
   const addTodo = (title) => {
     dispatch({ type: "ADD_TODO", payload: title });
   };
@@ -43,8 +52,13 @@ export default function App() {
             <FlatList
               data={todosFiltered}
               keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (<View>
-                <CardTodo todo={item} handleCompleted={toggleTodo} handleDelete={handleDelete} />
+              renderItem={({ item }) => (
+                <View>
+                  <CardTodo
+                    todo={item}
+                    handleCompleted={toggleTodo}
+                    handleDelete={handleDelete}
+                  />
                 </View>
               )}
             ></FlatList>
@@ -52,7 +66,11 @@ export default function App() {
         </SafeAreaView>
       </ImageBackground>
       <View style={appStyle.footer}>
-        <TabBottomMenu activeIndex={activeIndex} handlePress={handleFilter} todos={todos} />
+        <TabBottomMenu
+          activeIndex={activeIndex}
+          handlePress={handleFilter}
+          todos={todos}
+        />
       </View>
     </SafeAreaProvider>
   );
