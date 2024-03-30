@@ -15,6 +15,7 @@ const appStyle = StyleSheet.create({
   },
   body: {
     width: "100%",
+    position:'relative',
     rowGap: 10,
     flex: 5,
   },

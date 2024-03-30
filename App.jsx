@@ -7,6 +7,7 @@ import CardTodo from "./components/CardTodo/CardTodo";
 import { filterTodos, TODO_LIST, todosReducer } from "./data/constants";
 import { useReducer, useState } from "react";
 import TabBottomMenu from "./components/TabBottomMenu";
+import AddTodoButton from "./components/AddTodoButton";
 export default function App() {
   const [todos, dispatch] = useReducer(todosReducer, TODO_LIST);
   const [filter, setFilter] = useState("ALL");
@@ -27,9 +28,13 @@ export default function App() {
           style: "destructive",
           onPress: () => deleteTodo(id),
         },
-      ]
+      ],
+      {cancelable:true}
     );
   };
+  const handleAdd = ()=>{
+    Alert.prompt("Add Todo", "Add a new todo",(title)=>addTodo(title))
+  }
   const addTodo = (title) => {
     dispatch({ type: "ADD_TODO", payload: title });
   };
@@ -62,6 +67,7 @@ export default function App() {
                 </View>
               )}
             ></FlatList>
+            <AddTodoButton handleAdd={handleAdd}/>
           </View>
         </SafeAreaView>
       </ImageBackground>
