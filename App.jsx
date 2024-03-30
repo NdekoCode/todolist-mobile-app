@@ -10,14 +10,10 @@ export default function App() {
   const [todos, setTodos] = useState(TODO_LIST);
 
   const handleCompleted = (todo) => {
-    const newTodos = todos.map((t, index) => {
-      if (t.id === todo.id) {
-        t.isCompleted = !t.isCompleted;
-        return t;
-      }
-      return t;
-    });
-    setTodos(newTodos);
+    const todoIndex = todos.findIndex(t=>t.id===todo.id);
+    const ourTodos = [...todos];
+    ourTodos[todoIndex].isCompleted =!ourTodos[todoIndex].isCompleted;
+    setTodos(ourTodos);
   };
   return (
     <SafeAreaProvider>
