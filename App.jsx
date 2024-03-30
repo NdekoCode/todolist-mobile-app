@@ -1,17 +1,12 @@
-import {
-  FlatList,
-  ImageBackground,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { FlatList, ImageBackground, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { appStyle } from "./styles/app.style";
 import Header from "./components/Header";
 import bg from "./assets/bg-white.png";
 import CardTodo from "./components/CardTodo/CardTodo";
-import { filterTodos, TABS, TODO_LIST, todosReducer } from "./data/constants";
+import { filterTodos, TODO_LIST, todosReducer } from "./data/constants";
 import { useReducer, useState } from "react";
+import TabBottomMenu from "./components/TabBottomMenu";
 export default function App() {
   const [todos, dispatch] = useReducer(todosReducer, TODO_LIST);
   const [filter, setFilter] = useState("ALL");
@@ -51,21 +46,7 @@ export default function App() {
         </SafeAreaView>
       </ImageBackground>
       <View style={appStyle.footer}>
-        {TABS.map((tab, index) => (
-          <TouchableOpacity
-            onPress={() => handleFilter(index, tab.type)}
-            key={index}
-          >
-            <Text
-              style={[
-                appStyle.footer.text,
-                index === activeIndex && { color: "#606fda" },
-              ]}
-            >
-              {tab.title} ({todoState[index]})
-            </Text>
-          </TouchableOpacity>
-        ))}
+        <TabBottomMenu activeIndex={activeIndex} handlePress={handleFilter} todoState={todoState} />
       </View>
     </SafeAreaProvider>
   );
