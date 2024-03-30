@@ -6,12 +6,12 @@ import { appStyle } from "./styles/app.style";
 import Header from "./components/Header";
 import bg from "./assets/bg-white.png";
 import CardTodo from "./components/CardTodo/CardTodo";
-import { filterTodos, TODO_LIST, todosReducer } from "./data/constants";
+import { filterTodos, todosReducer } from "./data/constants";
 import { useReducer, useState } from "react";
 import TabBottomMenu from "./components/TabBottomMenu";
 import AddTodoButton from "./components/AddTodoButton";
 export default function App() {
-  const [todos, dispatch] = useReducer(todosReducer, TODO_LIST);
+  const [todos, dispatch] = useReducer(todosReducer, []);
   const [filter, setFilter] = useState("ALL");
   const [newTodo, setNewTodo] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
@@ -87,16 +87,11 @@ export default function App() {
       </View>
       <Dialog.Container visible={isVisible} onBackdropPress={()=>setIsVisible(false)}>
         <Dialog.Title>Add new Todo</Dialog.Title>
+        <Dialog.Description>Add a new Task to do</Dialog.Description>
         <Dialog.Input
-          label="Add new todo"
           value={newTodo}
           onChangeText={(text) => setNewTodo(text)}
-          wrapperStyle={{
-            padding: 10,
-            borderWidth: 0.5,
-            borderColor: "#dadada",
-            backgroundColor: "#fff",
-          }}
+          placeholder="Add new todo"
         />
         <View>
           <Dialog.Button label="Add Todo" onPress={addTodo} />

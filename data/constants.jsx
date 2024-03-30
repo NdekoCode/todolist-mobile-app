@@ -33,9 +33,9 @@ const filterTodos = (state, filter) => {
 const todosReducer = (state, action) => {
   switch (action.type) {
     case "ADD_TODO":
-      return [
+      return [ { id: Date.now(), title: action.payload, isCompleted: false },
         ...state,
-        { id: Date.now(), title: action.payload, isCompleted: false },
+       
       ];
     case "DELETE_TODO":
       return state.filter(t=>t.id !== action.payload);
