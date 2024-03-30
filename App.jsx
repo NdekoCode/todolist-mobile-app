@@ -5,14 +5,16 @@ import Header from "./components/Header";
 import bg from "./assets/bg-white.png";
 import CardTodo from "./components/CardTodo/CardTodo";
 import { TODO_LIST } from "./data/constants";
+import { useState } from "react";
 export default function App() {
+  const [todos,setTodos] = useState(TODO_LIST)
   return (
     <SafeAreaProvider>
       <ImageBackground source={bg} style={appStyle.app}>
         <SafeAreaView style={appStyle.container}>
           <Header />
           <View style={appStyle.body}>
-            {TODO_LIST.map((todo,index)=>(
+            {todos.map((todo,index)=>(
             <CardTodo todo={todo} key={index}/>))}
           </View>
         </SafeAreaView>
