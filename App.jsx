@@ -6,10 +6,11 @@ import { appStyle } from "./styles/app.style";
 import Header from "./components/Header";
 import bg from "./assets/bg-white.png";
 import CardTodo from "./components/CardTodo/CardTodo";
-import { filterTodos, todosReducer } from "./data/constants";
-import { useReducer, useState } from "react";
+import { filterTodos, getSavingTodoList, saveTodoList, todosReducer } from "./data/constants";
+import { useEffect, useReducer, useState } from "react";
 import TabBottomMenu from "./components/TabBottomMenu";
 import AddTodoButton from "./components/AddTodoButton";
+let isFirstRender = true;
 export default function App() {
   const [todos, dispatch] = useReducer(todosReducer, []);
   const [filter, setFilter] = useState("ALL");
@@ -17,6 +18,7 @@ export default function App() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const todosFiltered = filterTodos(todos, filter);
+
   const handleDelete = (id) => {
     Alert.alert(
       "Delete this todo",
@@ -36,25 +38,49 @@ export default function App() {
       { cancelable: true }
     );
   };
+
   const handleAdd = () => {
     setIsVisible(true);
   };
+
   const addTodo = () => {
     if (newTodo.trim().length > 1) {
       dispatch({ type: "ADD_TODO", payload: newTodo });
+      setNewTodo("");
     }
     setIsVisible(false);
   };
+
   const deleteTodo = (id) => {
     dispatch({ type: "DELETE_TODO", payload: id });
   };
+
   const toggleTodo = (id) => {
     dispatch({ type: "TOGGLE_TODO", payload: id });
   };
+
   const handleFilter = (index, filter = "ALL") => {
     setFilter(filter);
     setActiveIndex(index);
   };
+  useEffect(()=>{
+    (async()=>{
+      const data = await getSavingTodoList()
+      if(data!==null){
+        dispatch({type:'INIT',payload:data})
+      }
+    })()
+  },[])
+  useEffect(() => {
+    if (!isFirstRender) {
+      (async () => {
+        await saveTodoList(todos);
+      })();
+    } else {
+      isFirstRender = false;
+    }
+  }, [todos]);
+
   return (
     <SafeAreaProvider>
       <ImageBackground source={bg} style={appStyle.app}>
@@ -85,7 +111,10 @@ export default function App() {
           todos={todos}
         />
       </View>
-      <Dialog.Container visible={isVisible} onBackdropPress={()=>setIsVisible(false)}>
+      <Dialog.Container
+        visible={isVisible}
+        onBackdropPress={() => setIsVisible(false)}
+      >
         <Dialog.Title>Add new Todo</Dialog.Title>
         <Dialog.Description>Add a new Task to do</Dialog.Description>
         <Dialog.Input

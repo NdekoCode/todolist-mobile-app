@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const TODO_LIST = [
   { id: 1, title: "Sortir le chien", isCompleted: true },
   { id: 2, title: "Aller chez le garagiste", isCompleted: false },
@@ -30,15 +31,38 @@ const filterTodos = (state, filter) => {
       return state;
   }
 };
+const saveTodoList = async (todos) => {
+  const data = JSON.stringify(todos);
+  try {
+    await AsyncStorage.setItem("@todos", data);
+    console.log("SAVE");
+  } catch (error) {
+    alert("Error on saving data " + error.message);
+  }
+};
+const getSavingTodoList = async () => {
+  try {
+    console.log("LOAD");
+    const data = await AsyncStorage.getItem("@todos");
+    if (data !== null) {
+      return JSON.parse(data);
+    }
+    return null
+  } catch (error) {
+    alert("Error on getting data" + error.message);
+  }
+};
 const todosReducer = (state, action) => {
   switch (action.type) {
+    case "INIT":
+    return action.payload;
     case "ADD_TODO":
-      return [ { id: Date.now(), title: action.payload, isCompleted: false },
+      return [
+        { id: Date.now(), title: action.payload, isCompleted: false },
         ...state,
-       
       ];
     case "DELETE_TODO":
-      return state.filter(t=>t.id !== action.payload);
+      return state.filter((t) => t.id !== action.payload);
     case "TOGGLE_TODO": {
       const todoIndex = state.findIndex((t) => t.id === action.payload);
       const newState = [...state];
@@ -51,4 +75,11 @@ const todosReducer = (state, action) => {
       return state;
   }
 };
-export { TODO_LIST, TABS, todosReducer,filterTodos };
+export {
+  TODO_LIST,
+  TABS,
+  todosReducer,
+  filterTodos,
+  saveTodoList,
+  getSavingTodoList,
+};
