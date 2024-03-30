@@ -1,5 +1,7 @@
 import { Alert, FlatList, ImageBackground, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import Dialog from "react-native-dialog";
+
 import { appStyle } from "./styles/app.style";
 import Header from "./components/Header";
 import bg from "./assets/bg-white.png";
@@ -11,8 +13,10 @@ import AddTodoButton from "./components/AddTodoButton";
 export default function App() {
   const [todos, dispatch] = useReducer(todosReducer, TODO_LIST);
   const [filter, setFilter] = useState("ALL");
-  const todosFiltered = filterTodos(todos, filter);
+  const [newTodo, setNewTodo] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const todosFiltered = filterTodos(todos, filter);
   const handleDelete = (id) => {
     Alert.alert(
       "Delete this todo",
@@ -29,14 +33,17 @@ export default function App() {
           onPress: () => deleteTodo(id),
         },
       ],
-      {cancelable:true}
+      { cancelable: true }
     );
   };
-  const handleAdd = ()=>{
-    Alert.prompt("Add Todo", "Add a new todo",(title)=>addTodo(title))
-  }
-  const addTodo = (title) => {
-    dispatch({ type: "ADD_TODO", payload: title });
+  const handleAdd = () => {
+    setIsVisible(true);
+  };
+  const addTodo = () => {
+    if (newTodo.trim().length > 1) {
+      dispatch({ type: "ADD_TODO", payload: newTodo });
+    }
+    setIsVisible(false);
   };
   const deleteTodo = (id) => {
     dispatch({ type: "DELETE_TODO", payload: id });
@@ -67,7 +74,7 @@ export default function App() {
                 </View>
               )}
             ></FlatList>
-            <AddTodoButton handleAdd={handleAdd}/>
+            <AddTodoButton handleAdd={handleAdd} />
           </View>
         </SafeAreaView>
       </ImageBackground>
@@ -78,6 +85,23 @@ export default function App() {
           todos={todos}
         />
       </View>
+      <Dialog.Container visible={isVisible} onBackdropPress={()=>setIsVisible(false)}>
+        <Dialog.Title>Add new Todo</Dialog.Title>
+        <Dialog.Input
+          label="Add new todo"
+          value={newTodo}
+          onChangeText={(text) => setNewTodo(text)}
+          wrapperStyle={{
+            padding: 10,
+            borderWidth: 0.5,
+            borderColor: "#dadada",
+            backgroundColor: "#fff",
+          }}
+        />
+        <View>
+          <Dialog.Button label="Add Todo" onPress={addTodo} />
+        </View>
+      </Dialog.Container>
     </SafeAreaProvider>
   );
 }
