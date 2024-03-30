@@ -16,6 +16,7 @@ const appStyle = StyleSheet.create({
   },
   body: {
     width: "100%",
+    rowGap:10,
     flex: 5,
   },
   footer: {
