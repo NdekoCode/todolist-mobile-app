@@ -7,10 +7,10 @@ const TODO_LIST = [
   { id: 6, title: "Aller chez le garagiste", isCompleted: false },
   { id: 7, title: "Faire les courses", isCompleted: true },
   { id: 8, title: "Appeler le vétérinaire", isCompleted: true },
-  { id: 8, title: "Apprendre React Native", isCompleted: true },
-  { id: 8, title: "Apprendre Nest.js", isCompleted: true },
-  { id: 8, title: "Apprendre GSAP", isCompleted: true },
-  { id: 8, title: "Apprendre Three.js", isCompleted: true },
-  { id: 8, title: "Apprendre Next.js14", isCompleted: true },
+  { id: 9, title: "Apprendre React Native", isCompleted: true },
+  { id: 10, title: "Apprendre Nest.js", isCompleted: true },
+  { id: 11, title: "Apprendre GSAP", isCompleted: true },
+  { id: 12, title: "Apprendre Three.js", isCompleted: true },
+  { id: 13, title: "Apprendre Next.js14", isCompleted: true },
 ];
 export { TODO_LIST };
