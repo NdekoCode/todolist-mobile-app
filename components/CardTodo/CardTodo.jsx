@@ -5,7 +5,7 @@ const CardTodo = ({ todo }) => {
   return (
     <TouchableOpacity style={s.app}>
       <>
-        <Text>{todo.title}</Text>
+        <Text style={s.text}>{todo.title}</Text>
         <View style={s.imgContainer}>
           {todo.isCompleted && <Image source={check} style={s.img} />}
         </View>

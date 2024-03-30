@@ -13,7 +13,7 @@ export default function App() {
           <Header />
           <View style={appStyle.body}>
             {TODO_LIST.map((todo,index)=>(
-            <CardTodo todo={TODO_LIST[0]} todo={todo} key={index}/>))}
+            <CardTodo todo={todo} key={index}/>))}
           </View>
         </SafeAreaView>
       </ImageBackground>

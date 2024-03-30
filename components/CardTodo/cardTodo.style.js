@@ -6,11 +6,24 @@ const s = StyleSheet.create({
         flexDirection:'row',
         justifyContent:'space-between',
         alignItems:'center',
+        backgroundColor:'#fff',
         padding:20,
         borderWidth:0.5,
         borderColor:'#adadad',
-        boxShadow:'0px 0px 5px 0 rgba(0,0,0,0.05)',
         borderRadius:10,
+        shadowColor: "rgba(0,0,0,0.25)",
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 0.34,
+        shadowRadius: 6.27,
+        
+        elevation: 10,
+    },
+    text:{
+        color:'#333',
+        fontWeight:'600',
     },
     imgContainer:{
         width:20,
