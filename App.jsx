@@ -6,11 +6,17 @@ import { appStyle } from "./styles/app.style";
 import Header from "./components/Header";
 import bg from "./assets/bg-white.png";
 import CardTodo from "./components/CardTodo/CardTodo";
-import { filterTodos, getSavingTodoList, saveTodoList, todosReducer } from "./data/constants";
+import {
+  filterTodos,
+  getSavingTodoList,
+  saveTodoList,
+  todosReducer,
+} from "./data/constants";
 import { useEffect, useReducer, useState } from "react";
 import TabBottomMenu from "./components/TabBottomMenu";
 import AddTodoButton from "./components/AddTodoButton";
 let isFirstRender = true;
+let isLoadUpdate = false;
 export default function App() {
   const [todos, dispatch] = useReducer(todosReducer, []);
   const [filter, setFilter] = useState("ALL");
@@ -63,21 +69,26 @@ export default function App() {
     setFilter(filter);
     setActiveIndex(index);
   };
-  useEffect(()=>{
-    (async()=>{
-      const data = await getSavingTodoList()
-      if(data!==null){
-        dispatch({type:'INIT',payload:data})
-      }
-    })()
-  },[])
   useEffect(() => {
-    if (!isFirstRender) {
-      (async () => {
-        await saveTodoList(todos);
-      })();
+    (async () => {
+      const data = await getSavingTodoList();
+      isLoadUpdate = true;
+      if (data !== null) {
+        dispatch({ type: "INIT", payload: data });
+      }
+    })();
+  }, []);
+  useEffect(() => {
+    if (isLoadUpdate) {
+      isLoadUpdate = false;
     } else {
-      isFirstRender = false;
+      if (!isFirstRender) {
+        (async () => {
+          await saveTodoList(todos);
+        })();
+      } else {
+        isFirstRender = false;
+      }
     }
   }, [todos]);
 
