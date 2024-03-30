@@ -7,15 +7,31 @@ import CardTodo from "./components/CardTodo/CardTodo";
 import { TODO_LIST } from "./data/constants";
 import { useState } from "react";
 export default function App() {
-  const [todos,setTodos] = useState(TODO_LIST)
+  const [todos, setTodos] = useState(TODO_LIST);
+
+  const handleCompleted = (todo) => {
+    const newTodos = todos.map((t, index) => {
+      if (t.id === todo.id) {
+        t.isCompleted = !t.isCompleted;
+        return t;
+      }
+      return t;
+    });
+    setTodos(newTodos);
+  };
   return (
     <SafeAreaProvider>
       <ImageBackground source={bg} style={appStyle.app}>
         <SafeAreaView style={appStyle.container}>
           <Header />
           <View style={appStyle.body}>
-            {todos.map((todo,index)=>(
-            <CardTodo todo={todo} key={index}/>))}
+            {todos.map((todo, index) => (
+              <CardTodo
+                todo={todo}
+                key={index}
+                handleCompleted={handleCompleted}
+              />
+            ))}
           </View>
         </SafeAreaView>
       </ImageBackground>
