@@ -4,10 +4,10 @@ import { appStyle } from "./styles/app.style";
 import Header from "./components/Header";
 import bg from "./assets/bg-white.png";
 import CardTodo from "./components/CardTodo/CardTodo";
-import { TABS, TODO_LIST } from "./data/constants";
+import { TABS, TODO_LIST, todosReducer } from "./data/constants";
 import { useReducer, useState } from "react";
 export default function App() {
-  const [todos, dispatch] = useReducer(TODO_LIST,TODO_LIST);
+  const [todos, dispatch] = useReducer(todosReducer, TODO_LIST,TODO_LIST);
   const inProgressTodo = todos.filter(t=>!t.isCompleted);
   const addTodo = (title)=>{
     dispatch({type:"ADD_TODO",payload:title});
@@ -24,12 +24,6 @@ export default function App() {
   const handleTabChange = (newIndex)=>{
     setActiveIndex(newIndex);
   }
-  const handleCompleted = (todo) => {
-    const todoIndex = todos.findIndex(t=>t.id===todo.id);
-    const ourTodos = [...todos];
-    ourTodos[todoIndex].isCompleted =!ourTodos[todoIndex].isCompleted;
-    setTodos(ourTodos);
-  };
   return (
     <SafeAreaProvider>
       <ImageBackground source={bg} style={appStyle.app}>
@@ -40,7 +34,7 @@ export default function App() {
               data={todos}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
-                <CardTodo todo={item} handleCompleted={handleCompleted} />
+                <CardTodo todo={item} handleCompleted={toggleTodo} />
               )}
             ></FlatList>
           </View>

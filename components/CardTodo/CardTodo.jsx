@@ -4,7 +4,7 @@ import { s } from "./cardTodo.style";
 const CardTodo = ({ todo,handleCompleted }) => {
     const isCompltedStyle = todo.isCompleted && {textDecorationLine:'line-through'}
   return (
-    <TouchableOpacity style={s.app} onPress={()=>handleCompleted(todo)}>
+    <TouchableOpacity style={s.app} onPress={()=>handleCompleted(todo.id)}>
       <>
         <Text style={[s.text,isCompltedStyle]}>{todo.title}</Text>
         <View style={s.imgContainer}>
