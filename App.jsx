@@ -1,14 +1,20 @@
-import { FlatList, ImageBackground, Text, View } from "react-native";
+import { FlatList, ImageBackground, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { appStyle } from "./styles/app.style";
 import Header from "./components/Header";
 import bg from "./assets/bg-white.png";
 import CardTodo from "./components/CardTodo/CardTodo";
-import { TODO_LIST } from "./data/constants";
+import { TABS, TODO_LIST } from "./data/constants";
 import { useState } from "react";
 export default function App() {
   const [todos, setTodos] = useState(TODO_LIST);
-
+  const inProgressTodo = todos.filter(t=>!t.isCompleted);
+  const doneTodo = todos.filter(t=>t.isCompleted);
+  const todoState = [todos,inProgressTodo,doneTodo]
+  const [activeIndex,setActiveIndex] = useState(0);
+  const handleTabChange = (newIndex)=>{
+    setActiveIndex(newIndex);
+  }
   const handleCompleted = (todo) => {
     const todoIndex = todos.findIndex(t=>t.id===todo.id);
     const ourTodos = [...todos];
@@ -32,7 +38,9 @@ export default function App() {
         </SafeAreaView>
       </ImageBackground>
       <View style={appStyle.footer}>
-        <Text>Hello I'm Footer Filter bloc!</Text>
+        {TABS.map((tab,index)=>(
+        <TouchableOpacity onPress={()=>handleTabChange(index)} key={index}><Text style={[appStyle.footer.text,index===activeIndex && {color:'#606fda'}]}>{tab} ({todoState[index].length})</Text></TouchableOpacity>
+        ))}
       </View>
     </SafeAreaProvider>
   );

@@ -13,4 +13,5 @@ const TODO_LIST = [
   { id: 12, title: "Apprendre Three.js", isCompleted: true },
   { id: 13, title: "Apprendre Next.js14", isCompleted: true },
 ];
-export { TODO_LIST };
+const TABS = ["All", "In Progress", "Done"];
+export { TODO_LIST,TABS };
