@@ -1,4 +1,4 @@
-import { ImageBackground, Text, View } from "react-native";
+import { FlatList, ImageBackground, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { appStyle } from "./styles/app.style";
 import Header from "./components/Header";
@@ -25,13 +25,13 @@ export default function App() {
         <SafeAreaView style={appStyle.container}>
           <Header />
           <View style={appStyle.body}>
-            {todos.map((todo, index) => (
-              <CardTodo
-                todo={todo}
-                key={index}
-                handleCompleted={handleCompleted}
-              />
-            ))}
+            <FlatList
+              data={todos}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <CardTodo todo={item} handleCompleted={handleCompleted} />
+              )}
+            ></FlatList>
           </View>
         </SafeAreaView>
       </ImageBackground>
