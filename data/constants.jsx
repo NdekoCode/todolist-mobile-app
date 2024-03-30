@@ -38,7 +38,7 @@ const todosReducer = (state, action) => {
         { id: Date.now(), title: action.payload, isCompleted: false },
       ];
     case "DELETE_TODO":
-      return state.filter(todo.id !== action.payload);
+      return state.filter(t=>t.id !== action.payload);
     case "TOGGLE_TODO": {
       const todoIndex = state.findIndex((t) => t.id === action.payload);
       const newState = [...state];

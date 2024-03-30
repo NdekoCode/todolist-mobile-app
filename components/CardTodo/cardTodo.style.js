@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 
 const s = StyleSheet.create({
   app: {
+    flex:1,
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -26,6 +27,15 @@ const s = StyleSheet.create({
     fontSize: 16,
     color: "#333",
     fontWeight: "500",
+  },
+  iconContainer:{
+    flexDirection:'row',
+    columnGap:10
+  },
+  deleteImg:{
+    width: 24,
+    aspectRatio: 1,
+  
   },
   imgContainer: {
     width: 24,

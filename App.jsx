@@ -1,4 +1,4 @@
-import { FlatList, ImageBackground, View } from "react-native";
+import { Alert, FlatList, ImageBackground, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { appStyle } from "./styles/app.style";
 import Header from "./components/Header";
@@ -12,6 +12,15 @@ export default function App() {
   const [filter, setFilter] = useState("ALL");
   const todosFiltered = filterTodos(todos, filter);
   const [activeIndex, setActiveIndex] = useState(0);
+  const handleDelete = (id)=>{
+    Alert.alert("Delete this todo","Pay attention you're in the process to delete this todo",[{
+      text:"Cancel",
+    onPress:()=>console.log("Cancel Pressed")},{
+        text:"Confirm",
+        onPress:()=>deleteTodo(id)
+      }
+    ])
+  }
   const addTodo = (title) => {
     dispatch({ type: "ADD_TODO", payload: title });
   };
@@ -34,8 +43,9 @@ export default function App() {
             <FlatList
               data={todosFiltered}
               keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
-                <CardTodo todo={item} handleCompleted={toggleTodo} />
+              renderItem={({ item }) => (<View>
+                <CardTodo todo={item} handleCompleted={toggleTodo} handleDelete={handleDelete} />
+                </View>
               )}
             ></FlatList>
           </View>
