@@ -11,10 +11,6 @@ export default function App() {
   const [todos, dispatch] = useReducer(todosReducer, TODO_LIST);
   const [filter, setFilter] = useState("ALL");
   const todosFiltered = filterTodos(todos, filter);
-  const allTodo = todos.length;
-  const inProgressTodoCount = todos.filter((t) => !t.isCompleted).length;
-  const doneTodoCount = todos.filter((t) => t.isCompleted).length;
-  const todoState = [allTodo, inProgressTodoCount, doneTodoCount];
   const [activeIndex, setActiveIndex] = useState(0);
   const addTodo = (title) => {
     dispatch({ type: "ADD_TODO", payload: title });
@@ -46,7 +42,7 @@ export default function App() {
         </SafeAreaView>
       </ImageBackground>
       <View style={appStyle.footer}>
-        <TabBottomMenu activeIndex={activeIndex} handlePress={handleFilter} todoState={todoState} />
+        <TabBottomMenu activeIndex={activeIndex} handlePress={handleFilter} todos={todos} />
       </View>
     </SafeAreaProvider>
   );

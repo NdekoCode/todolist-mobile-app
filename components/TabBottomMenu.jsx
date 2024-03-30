@@ -2,7 +2,12 @@ import { Text, TouchableOpacity } from "react-native";
 import { TABS } from "../data/constants";
 import { appStyle } from "../styles/app.style";
 
-const TabBottomMenu = ({ activeIndex, todoState, handlePress }) => {
+const TabBottomMenu = ({ activeIndex, handlePress,todos }) => {
+
+  const allTodo = todos.length;
+  const inProgressTodoCount = todos.filter((t) => !t.isCompleted).length;
+  const doneTodoCount = todos.filter((t) => t.isCompleted).length;
+  const todoState = [allTodo, inProgressTodoCount, doneTodoCount];
   const activeStyle = { color: "#606fda" };
   return (
     <>
