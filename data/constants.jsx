@@ -13,9 +13,15 @@ const TODO_LIST = [
   { id: 12, title: "Apprendre Three.js", isCompleted: true },
   { id: 13, title: "Apprendre Next.js14", isCompleted: true },
 ];
-const TABS = ["All", "In Progress", "Done"];
+const TABS = [
+  { title: "All", type: "ALL" },
+  { title: "In Progress", type: "IN_PROGRESS" },
+  { title: "Done", type: "DONE" },
+];
 const filterTodos = (state, filter) => {
   switch (filter) {
+    case "ALL":
+      return state;
     case "DONE":
       return state.filter((t) => t.isCompleted);
     case "IN_PROGRESS":
@@ -45,4 +51,4 @@ const todosReducer = (state, action) => {
       return state;
   }
 };
-export { TODO_LIST, TABS, todosReducer };
+export { TODO_LIST, TABS, todosReducer,filterTodos };

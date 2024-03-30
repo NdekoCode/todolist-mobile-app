@@ -1,29 +1,39 @@
-import { FlatList, ImageBackground, Text, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  ImageBackground,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { appStyle } from "./styles/app.style";
 import Header from "./components/Header";
 import bg from "./assets/bg-white.png";
 import CardTodo from "./components/CardTodo/CardTodo";
-import { TABS, TODO_LIST, todosReducer } from "./data/constants";
+import { filterTodos, TABS, TODO_LIST, todosReducer } from "./data/constants";
 import { useReducer, useState } from "react";
 export default function App() {
-  const [todos, dispatch] = useReducer(todosReducer, TODO_LIST,TODO_LIST);
-  const inProgressTodo = todos.filter(t=>!t.isCompleted);
-  const addTodo = (title)=>{
-    dispatch({type:"ADD_TODO",payload:title});
-  }
-  const deleteTodo =(id)=>{
-    dispatch({type:"DELETE_TODO",payload:id});
-  }
-  const toggleTodo =(id)=>{
-    dispatch({type:"TOGGLE_TODO",payload:id});
-  }
-  const doneTodo = todos.filter(t=>t.isCompleted);
-  const todoState = [todos,inProgressTodo,doneTodo]
-  const [activeIndex,setActiveIndex] = useState(0);
-  const handleTabChange = (newIndex)=>{
-    setActiveIndex(newIndex);
-  }
+  const [todos, dispatch] = useReducer(todosReducer, TODO_LIST);
+  const [filter, setFilter] = useState("ALL");
+  const todosFiltered = filterTodos(todos, filter);
+  const allTodo = todos.length;
+  const inProgressTodoCount = todos.filter((t) => !t.isCompleted).length;
+  const doneTodoCount = todos.filter((t) => t.isCompleted).length;
+  const todoState = [allTodo, inProgressTodoCount, doneTodoCount];
+  const [activeIndex, setActiveIndex] = useState(0);
+  const addTodo = (title) => {
+    dispatch({ type: "ADD_TODO", payload: title });
+  };
+  const deleteTodo = (id) => {
+    dispatch({ type: "DELETE_TODO", payload: id });
+  };
+  const toggleTodo = (id) => {
+    dispatch({ type: "TOGGLE_TODO", payload: id });
+  };
+  const handleFilter = (index, filter = "ALL") => {
+    setFilter(filter);
+    setActiveIndex(index);
+  };
   return (
     <SafeAreaProvider>
       <ImageBackground source={bg} style={appStyle.app}>
@@ -31,7 +41,7 @@ export default function App() {
           <Header />
           <View style={appStyle.body}>
             <FlatList
-              data={todos}
+              data={todosFiltered}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
                 <CardTodo todo={item} handleCompleted={toggleTodo} />
@@ -41,8 +51,20 @@ export default function App() {
         </SafeAreaView>
       </ImageBackground>
       <View style={appStyle.footer}>
-        {TABS.map((tab,index)=>(
-        <TouchableOpacity onPress={()=>handleTabChange(index)} key={index}><Text style={[appStyle.footer.text,index===activeIndex && {color:'#606fda'}]}>{tab} ({todoState[index].length})</Text></TouchableOpacity>
+        {TABS.map((tab, index) => (
+          <TouchableOpacity
+            onPress={() => handleFilter(index, tab.type)}
+            key={index}
+          >
+            <Text
+              style={[
+                appStyle.footer.text,
+                index === activeIndex && { color: "#606fda" },
+              ]}
+            >
+              {tab.title} ({todoState[index]})
+            </Text>
+          </TouchableOpacity>
         ))}
       </View>
     </SafeAreaProvider>
