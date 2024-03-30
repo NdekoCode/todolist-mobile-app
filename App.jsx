@@ -5,10 +5,19 @@ import Header from "./components/Header";
 import bg from "./assets/bg-white.png";
 import CardTodo from "./components/CardTodo/CardTodo";
 import { TABS, TODO_LIST } from "./data/constants";
-import { useState } from "react";
+import { useReducer, useState } from "react";
 export default function App() {
-  const [todos, setTodos] = useState(TODO_LIST);
+  const [todos, dispatch] = useReducer(TODO_LIST,TODO_LIST);
   const inProgressTodo = todos.filter(t=>!t.isCompleted);
+  const addTodo = (title)=>{
+    dispatch({type:"ADD_TODO",payload:title});
+  }
+  const deleteTodo =(id)=>{
+    dispatch({type:"DELETE_TODO",payload:id});
+  }
+  const toggleTodo =(id)=>{
+    dispatch({type:"TOGGLE_TODO",payload:id});
+  }
   const doneTodo = todos.filter(t=>t.isCompleted);
   const todoState = [todos,inProgressTodo,doneTodo]
   const [activeIndex,setActiveIndex] = useState(0);
